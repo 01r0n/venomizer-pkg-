@@ -1,0 +1,32 @@
+DESCRIPTION="The GTK+ 3 package contains libraries used for creating graphical user interfaces for applications."
+HOMEPAGE="gnome.org"
+LICENSE="GNU LIBRARY GENERAL PUBLIC LICENSE Version 2"
+VERSION="3.20.9"
+SRC_URL="http://venomizer.orionos-linux.org/core/x-libraries/gtk3-3.20.9.tar.xz"
+DEPS="gdk-pixbuf at-spi2-atk pango libepoxy gobject-introspection"
+REPO="core"
+HASH="cc76cac5e18c772c6784bf19a3dff08b"
+MAINTAINER="Zee Eichel (zee.eichel@orionos-linux.org)" 
+
+configure ()
+{
+  sed -e 's#l \(gtk-.*\).sgml#& -o \1#' -i docs/{faq,tutorial}/Makefile.in 
+  sed -i "/seems to be moved/s/^/#/" ltmain.sh 
+  ./configure --prefix=/usr --sysconfdir=/etc --enable-broadway-backend --enable-x11-backend --disable-wayland-backend
+}
+
+build ()
+{
+  make
+}
+
+check ()
+{
+  make check
+}
+
+merge ()
+{
+  make install
+  gtk-query-immodules-3.0 --update-cache
+}

@@ -1,0 +1,59 @@
+DESCRIPTION="The OpenLDAP package provides an open source implementation of the Lightweight Directory Access Protocol."
+HOMEPAGE="openldap.org"
+LICENSE=""
+VERSION="2.4.44"
+SRC_URL="ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/openldap-2.4.44.tgz"
+DEPS=""
+REPO="core"
+HASH="693ac26de86231f8dcae2b4e9d768e51"
+MAINTAINER="Zee Eichel (zee.eichel@orionos-linux.org)"
+
+configure ()
+{
+  groupadd -g 83 ldap 
+  useradd  -c "OpenLDAP Daemon Owner" \
+         -d /var/lib/openldap -u 83 \
+         -g ldap -s /bin/false ldap
+  wget http://www.linuxfromscratch.org/patches/blfs/7.10/openldap-2.4.44-consolidated-2.patch
+  patch -Np1 -i openldap-2.4.44-consolidated-2.patch
+  ./configure --prefix=/usr         \
+            --sysconfdir=/etc     \
+            --localstatedir=/var  \
+            --libexecdir=/usr/lib \
+            --disable-static      \
+            --disable-debug       \
+            --with-tls=openssl    \
+            --with-cyrus-sasl     \
+            --enable-dynamic      \
+            --enable-crypt        \
+            --enable-spasswd      \
+            --enable-slapd        \
+            --enable-modules      \
+            --enable-backends=mod \
+            --disable-ndb         \
+            --disable-sql         \
+            --disable-shell       \
+            --disable-bdb         \
+            --disable-hdb         \
+            --enable-overlays=mod 
+}
+
+build ()
+{ 
+  make depend 
+  make
+}
+
+check ()
+{
+  :
+}
+
+merge ()
+{
+     make install
+     install -v -dm700 -o ldap -g ldap /var/lib/openldap     
+     install -v -dm700 -o ldap -g ldap /etc/openldap/slapd.d 
+     chmod   -v    640     /etc/openldap/slapd.{conf,ldif}   
+     chown   -v  root:ldap /etc/openldap/slapd.{conf,ldif} 
+}

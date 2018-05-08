@@ -1,0 +1,30 @@
+DESCRIPTION="The Python 2 package contains the Python development environment. It is useful for object-oriented programming, writing scripts, prototyping large programs or developing entire applications. This version is for backward compatibility with other dependent packages."
+HOMEPAGE="www.python.org"
+LICENSE=""
+VERSION="2.7.12"
+SRC_URL="http://venomizer.orionos-linux.org/core/programming/python2-2.7.12.tar.xz"
+DEPS=""
+REPO="core"
+HASH="57dffcee9cee8bb2ab5f82af1d8e9a69" 
+MAINTAINER="Zee Eichel (zee.eichel@orionos-linux.org)"
+
+configure ()
+{
+  ./configure --prefix=/usr --enable-share --with-system-expat --with-system-ffi --enable-unicode=ucs4
+}
+
+build ()
+{
+  make
+}
+
+check ()
+{
+	:
+}
+
+merge ()
+{
+  make $FAKE install
+  chmod -v 755 /usr/lib/libpython2.7.so.1.0
+}

@@ -1,0 +1,29 @@
+DESCRIPTION=""
+HOMEPAGE=""
+LICENSE=""
+VERSION="2.21"
+SRC_URL="http://ftp.gnu.org/gnu/$PN/$PN-$VERSION.tar.gz"
+DEPS=""
+REPO="core"
+HASH="097ff1a324ae02e0a3b0369f07a7544a" 
+MAINTAINER="Zee Eichel (zee.eichel@orionos-linux.org)" 
+
+configure ()
+{ 
+  ./configure --prefix=/usr 
+}
+
+build ()
+{
+  make
+}
+
+check ()
+{
+	:
+}
+
+merge ()
+{
+  make install
+}

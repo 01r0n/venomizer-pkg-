@@ -1,0 +1,33 @@
+DESCRIPTION="orionos package manager"
+HOMEPAGE="www.orionos-linux.org"
+LICENSE="GNU v3"
+VERSION="1.0-rc1"
+SRC_URL="http://venomizer.orionos-linux.org/core/system-utilities/venomizer-1.0-rc1.gz"
+REPO="core"
+HASH=""
+MAINTAINER="Zee Eichel (zee.eichel@orionos-linux.org)"
+
+configure ()
+{
+  mkdir /usr/venomizer/pkgtree -p -v
+  mkdir /var/venomizer/installed -p -v 
+  mkdir /usr/src -p -v
+  mkdir /etc/venomizer -p -v
+}
+
+build ()
+{
+ :
+}
+
+check ()
+{
+ :
+}
+
+merge ()
+{
+  cp _build.sh _function.sh /usr/venomizer -v 
+  cp venomizer /usr/bin -v 
+  cp venomizer.conf /etc/venomizer
+}

@@ -1,0 +1,29 @@
+DESCRIPTION="Pango is a library for laying out and rendering of text, with an emphasis on internationalization. It can be used anywhere that text layout is needed, though most of the work on Pango so far has been done in the context of the GTK+ widget toolkit."
+HOMEPAGE="gnome.org"
+LICENSE="GNU LIBRARY GENERAL PUBLIC LICENSE Version 2"
+VERSION="1.40.1"
+SRC_URL="http://ftp.gnome.org/pub/gnome/sources/$PN/1.40/$PN-$VERSION.tar.xz"
+REPO="core"
+HASH="6fc88c6529890d6c8e03074d57a3eceb"
+MAINTAINER="Zee Eichel (zee.eichel@orionos-linux.org)"
+
+configure ()
+{
+  sed -i "/seems to be moved/s/^/#/" ltmain.sh
+  ./configure --prefix=/usr 
+}
+
+build ()
+{
+  make
+}
+
+check ()
+{
+ make check 
+}
+
+merge ()
+{
+  make install
+}

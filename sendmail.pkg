@@ -1,0 +1,59 @@
+DESCRIPTION="The sendmail package contains a Mail Transport Agent (MTA)." 
+HOMEPAGE=""
+LICENSE=""
+VERSION="8.15.2"
+SRC_URL="http://orionos-linux.org/core/servers/sendmail-8.15.2.tar.gz"
+DEPS="openldap"
+REPO="core"
+HASH="a824fa7dea4d3341efb6462ccd816f00"
+MAINTAINER="Zee Eichel (zee.eichel@orionos-linux.org)"
+
+configure ()
+{
+  groupadd -g 26 smmsp                               
+  useradd -c "Sendmail Daemon" -g smmsp -d /dev/null \
+          -s /bin/false -u 26 smmsp                  
+  chmod -v 1777 /var/mail                            
+  install -v -m700 -d /var/spool/mqueue
+  
+  cat >> devtools/Site/site.config.m4 << "EOF"
+  APPENDDEF(`confENVDEF',`-DSTARTTLS -DSASL -DLDAPMAP')
+  APPENDDEF(`confLIBS', `-lssl -lcrypto -lsasl2 -lldap -llber -ldb')
+  APPENDDEF(`confINCDIRS', `-I/usr/include/sasl')
+  EOF
+  
+  cat >> devtools/Site/site.config.m4 << "EOF"
+  define(`confMANGRP',`root')
+  define(`confMANOWN',`root')
+  define(`confSBINGRP',`root')
+  define(`confUBINGRP',`root')
+  define(`confUBINOWN',`root')
+  EOF
+  
+  sed -i 's|/usr/man/man|/usr/share/man/man|' \
+    devtools/OS/Linux
+  cd sendmail 
+}
+
+build ()
+{ 
+  sh Build  
+  cd ../cf/cf
+  cp generic-linux.mc sendmail.mc 
+  sh Build sendmail.cf
+}
+
+check ()
+{
+  :
+}
+
+merge ()
+{
+  install -v -d -m755 /etc/mail 
+  sh Build install-cf 
+  cd ../..            
+  sh Build install    
+  install -v -m644 cf/cf/{submit,sendmail}.mc /etc/mail 
+  cp -v -R cf/* /etc/mail   
+}

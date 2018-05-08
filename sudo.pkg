@@ -1,0 +1,30 @@
+DESCRIPTION="The Sudo package allows a system administrator to give certain users (or groups of users) the ability to run some (or all) commands as root or another user while logging the commands and arguments."
+HOMEPAGE="sudo.ws"
+LICENSE=""
+VERSION="1.8.17p1"
+SRC_URL="http://www.sudo.ws/dist/sudo-1.8.17p1.tar.gz"
+DEPS="Linux-PAM krb5 openldap sendmail"
+REPO="community"
+HASH="50a840a688ceb6fa3ab24fc0adf4fa23"
+MAINTAINER="Zee Eichel (zee.eichel@orionos-linux.org)" 
+
+configure ()
+{
+  ./configure --prefix=/usr --libexecdir=/usr/lib --with-secure-path --with-all-insults --with-env-editor --docdir=/usr/share/doc/sudo-1.8.17p1 --with-passprompt="[sudo] password for %p"
+}
+
+build ()
+{
+  make
+}
+
+check ()
+{
+  :
+}
+
+merge ()
+{
+  make install
+  ln -sfv libsudo_util.so.0.0.0 /usr/lib/sudo/libsudo_util.so.0
+}

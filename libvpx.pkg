@@ -1,0 +1,32 @@
+DESCRIPTION="This package, from the WebM project, provides the reference implementations of the VP8 Codec, used in most current html5 video, and of the next-generation VP9 Codec. "
+HOMEPAGE=""
+LICENSE=""
+VERSION="1.6.0"
+SRC_URL="http://storage.googleapis.com/downloads.webmproject.org/releases/webm/$PN-$VERSION.tar.bz2"
+DEPS="yasm which"
+REPO="community"
+HASH="176768a0e1bb4fe42742e27a41af" 
+MAINTAINER="Zee Eichel (zee.eichel@orionos-linux.org)" 
+
+configure ()
+{
+  sed -i 's/cp -p/cp/' build/make/Makefile 
+  mkdir libvpx-build 
+  cd    libvpx-build 
+  ../configure --prefix=/usr --enable-shared  --disable-static 
+}
+
+build ()
+{
+  make
+}
+
+check ()
+{
+	:
+}
+
+merge ()
+{
+  make install
+}

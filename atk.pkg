@@ -1,0 +1,29 @@
+DESCRIPTION="TK provides the set of accessibility interfaces that are implemented by other toolkits and applications. Using the ATK interfaces, accessibility tools have full access to view and control running applications." 
+HOMEPAGE="www.gnome.org"
+LICENSE="GNU LIBRARY GENERAL PUBLIC LICENCE version 2"
+VERSION="2.20.0"
+SRC_URL=" http://ftp.gnome.org/pub/gnome/sources/$PN/2.20/$PN-$VERSION.tar.xz"
+DEPS="glib gobject-introspection"
+REPO="core"
+HASH="5187b0972f4d3905f285540b31395e20"
+MAINTAINER="Zee Eichel (zee.eichel@orionos-linux.org)"
+
+configure ()
+{
+  ./configure --prefix=/usr 
+}
+
+build ()
+{
+  make
+}
+
+check ()
+{
+  make check
+}
+
+merge ()
+{
+  make install
+}

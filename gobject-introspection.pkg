@@ -1,0 +1,28 @@
+DESCRIPTION="The GObject Introspection is used to describe the program APIs and collect them in a uniform, machine readable format."
+HOMEPAGE="gnome.org"
+LICENSE="GNU LIBRARY GENERAL PUBLIC LICENSE Version 2"
+VERSION="1.48.0"
+SRC_URL=" http://ftp.gnome.org/pub/gnome/sources/$PN/1.48/$PN-$VERSION.tar.xz"
+DEPS="glib python2"
+REPO=""
+HASH="01301fa9019667d48e927353e08bc218"
+
+configure ()
+{
+  ./configure --prefix=/usr --disable-static 
+}
+
+build ()
+{
+  make
+}
+
+check ()
+{
+  make check
+}
+
+merge ()
+{
+  make install
+}

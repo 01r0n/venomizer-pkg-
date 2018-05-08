@@ -1,0 +1,32 @@
+DESCRIPTION="The GTK+ 2 package contains libraries used for creating graphical user interfaces for applications."
+HOMEPAGE="gnome.org"
+LICENSE="GNU LIBRARY GENERAL PUBLIC LICENSE Version 2"
+VERSION="2.24.30"
+SRC_URL="http://venomizer.orionos-linux.org/core/x-libraries/gtk2-2.24.30.tar.xz"
+DEPS="atk gdk-pixbuf pango gobject-introspection"
+REPO="core"
+HASH="04568ba5c58b75e3c7543e45628ad789"
+MAINTAINER="Zee Eichel (zee.eichel@orionos-linux.org)"
+
+configure ()
+{
+  sed -e 's#l \(gtk-.*\).sgml#& -o \1#' -i docs/{faq,tutorial}/Makefile.in 
+  sed -i "/seems to be moved/s/^/#/" ltmain.sh 
+  ./configure --prefix=/usr --sysconfdir=/etc
+}
+
+build ()
+{
+  make
+}
+
+check ()
+{
+  make check
+}
+
+merge ()
+{
+  make install
+  gtk-query-immodules-2.0 --update-cache
+}
